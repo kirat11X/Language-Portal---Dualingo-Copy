@@ -26,49 +26,49 @@ We have the following table:
 ## Database Schema Detailing:
 
 - 🟩 words — Stores individual Punjabi vocabulary words
-id (Primary Key): Unique identifier for each word
-gurmukhi (String, Required): The word written in Punjabi (Gurmukhi script)
-romanized (String, Required): Romanized/transliterated version of the word
-english (String, Required): English translation of the word
-parts (JSON, Required): Word components stored in JSON format
+    - id (Primary Key): Unique identifier for each word
+    - gurmukhi (String, Required): The word written in Punjabi (Gurmukhi script)
+    - romanized (String, Required): Romanized/transliterated version of the word
+    - english (String, Required): English translation of the word
+    - parts (JSON, Required): Word components stored in JSON format
 
-💡 Example parts:
-{
-  "type": "noun",
-  "gender": "masculine",
-  "difficulty": "beginner",
-  "example": "ਇਹ ਇੱਕ ਕਿਤਾਬ ਹੈ",
-  "pronunciation_hint": "kitaab"
-}
+    - 💡 Example parts:
+    {
+    "type": "noun",
+    "gender": "masculine",
+    "difficulty": "beginner",
+    "example": "ਇਹ ਇੱਕ ਕਿਤਾਬ ਹੈ",
+    "pronunciation_hint": "kitaab"
+    }
 
 - 🟦 groups — Manages collections of words (topics)
-id (Primary Key): Unique identifier for each group
-name (String, Required): Name of the group
-👉 Examples: "Greetings", "Food", "Daily Conversation", "Family"
-words_count (Integer, Default: 0): Counter cache for number of words
+    - id (Primary Key): Unique identifier for each group
+    - name (String, Required): Name of the group
+    - 👉 Examples: "Greetings", "Food", "Daily Conversation", "Family"
+    - words_count (Integer, Default: 0): Counter cache for number of words
 - 🟨 word_groups — Many-to-many mapping
-word_id (Foreign Key): References words.id
-group_id (Foreign Key): References groups.id
+    - word_id (Foreign Key): References words.id
+    - group_id (Foreign Key): References groups.id
 - 🟪 study_activities — Types of learning modes
-id (Primary Key): Unique identifier for each activity
-name (String, Required): Name of the activity
-👉 Examples:
-"Flashcards"
-"Punjabi → English Quiz"
-"English → Punjabi Quiz"
-"Listening Practice"
-url (String, Required): Full URL of the activity
+    - id (Primary Key): Unique identifier for each activity
+    - name (String, Required): Name of the activity
+    - 👉 Examples:
+        "Flashcards"
+        "Punjabi → English Quiz"
+        "English → Punjabi Quiz"
+        "Listening Practice"
+    - url (String, Required): Full URL of the activity
 - 🟥 study_sessions — Records each learning session
-id (Primary Key): Unique identifier for each session
-group_id (Foreign Key): References groups.id
-study_activity_id (Foreign Key): References study_activities.id
-created_at (Timestamp, Default: Current Time): Session start time
+    - id (Primary Key): Unique identifier for each session
+    - group_id (Foreign Key): References groups.id
+    - study_activity_id (Foreign Key): References study_activities.id
+    - created_at (Timestamp, Default: Current Time): Session start time
 - 🟫 word_review_items — Tracks performance per word
-id (Primary Key): Unique identifier for each review
-word_id (Foreign Key): References words.id
-study_session_id (Foreign Key): References study_sessions.id
-correct (Boolean, Required): Whether answer was correct
-created_at (Timestamp, Default: Current Time): Review time
+    - id (Primary Key): Unique identifier for each review
+    - word_id (Foreign Key): References words.id
+    - study_session_id (Foreign Key): References study_sessions.id
+    - correct (Boolean, Required): Whether answer was correct
+    -  created_at (Timestamp, Default: Current Time): Review time
 
 
 ## Fututre Considerations:
