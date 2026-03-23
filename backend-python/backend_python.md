@@ -69,3 +69,16 @@ word_id (Foreign Key): References words.id
 study_session_id (Foreign Key): References study_sessions.id
 correct (Boolean, Required): Whether answer was correct
 created_at (Timestamp, Default: Current Time): Review time
+
+
+## Fututre Considerations:
+
+- ⭐ Add audio support
+audio_url in words
+→ helps pronunciation learning
+- ⭐ Add difficulty system
+difficulty field (easy / medium / hard)
+- ⭐ Add script learning support
+script_stage (beginner Gurmukhi letters → words → sentences)
+- ⭐ Add spaced repetition readiness
+next_review_at in word_review_items
