@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LangPortal React Prototype</title>
+    
+    <!-- React & Router -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js" crossorigin></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#7C3AED",
+              "on-primary": "#ffffff",
+              "primary-container": "#e9ddff",
+              "on-primary-container": "#2e006c",
+              "primary-fixed-dim": "#a67aff",
+              "secondary": "#6448b2",
+              "secondary-container": "#d8caff",
+              "on-secondary-container": "#4f329d",
+              "tertiary": "#9e3657",
+              "tertiary-container": "#ff8eac",
+              "surface": "#f5f6f8",
+              "on-surface": "#2c2f31",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#eff1f3",
+              "surface-container": "#e6e8eb",
+              "surface-container-highest": "#dadde0",
+              "on-surface-variant": "#595c5e",
+              "outline": "#757779",
+              "outline-variant": "#abadaf",
+              "error": "#b41340",
+              "on-error": "#ffffff",
+              "error-container": "#f74b6d",
+              "on-error-container": "#510017",
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        .ambient-shadow {
+            box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.04), 0 12px 40px -8px rgba(44, 47, 49, 0.08);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased transition-colors duration-200">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Global Destructuring
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Layout Components ---
+
+        const Sidebar = ({ currentMode, toggleMode }) => {
+            const location = useLocation();
+            
+            const navItems = [
+                { path: "/", icon: "dashboard", label: "Dashboard" },
+                { path: "/activities", icon: "school", label: "Study Activities" },
+                { path: "/words", icon: "translate", label: "Words" },
+                { path: "/groups", icon: "folder_shared", label: "Word Groups" },
+                { path: "/sessions", icon: "history", label: "Sessions" },
+                { path: "/settings", icon: "settings", label: "Settings" }
+            ];
+
+            return (
+                <aside className="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface-container-low dark:bg-slate-900 flex flex-col gap-2 p-6 z-50 border-r border-outline-variant/10 transition-colors">
+                    <div className="mb-8 px-2">
+                        <h1 className="text-2xl font-black text-primary tracking-tighter font-headline">LangPortal</h1>
+                        <p className="text-xs font-medium text-on-surface-variant uppercase tracking-widest mt-1">Punjabi Learning</p>
+                    </div>
+                    
+                    <nav className="space-y-2 flex-grow">
+                        {navItems.map((item) => {
+                            const isActive = location.pathname === item.path;
+                            return (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className={`flex items-center gap-3 px-4 py-3 rounded-full font-headline font-semibold text-sm tracking-tight transition-all duration-200 ${
+                                        isActive 
+                                        ? "bg-white dark:bg-white/10 text-primary shadow-sm" 
+                                        : "text-on-surface-variant hover:text-primary hover:bg-white/50 dark:hover:bg-white/5"
+                                    }`}
+                                >
+                                    <span className="material-symbols-outlined" style={{ fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0" }}>
+                                        {item.icon}
+                                    </span>
+                                    <span>{item.label}</span>
+                                </Link>
+                            )
+                        })}
+                    </nav>
+
+                    <div className="mt-auto pt-6 border-t border-outline-variant/10">
+                         <div className="flex items-center justify-between px-4 py-2 mb-4 bg-surface dark:bg-slate-800 rounded-full">
+                            <span className="text-xs font-bold text-on-surface-variant">Theme</span>
+                            <button onClick={toggleMode} className="p-1 rounded-full bg-surface-container-high dark:bg-slate-700 text-on-surface hover:text-primary transition-colors">
+                                <span className="material-symbols-outlined text-sm">{currentMode === 'dark' ? 'light_mode' : 'dark_mode'}</span>
+                            </button>
+                        </div>
+                        <button className="w-full bg-primary text-on-primary py-4 rounded-xl font-bold tracking-tight shadow-lg hover:opacity-90 active:scale-95 transition-all">
+                            Start Studying
+                        </button>
+                    </div>
+                </aside>
+            );
+        };
+
+        const TopBar = ({ title }) => {
+            return (
+                <header className="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-surface/70 dark:bg-slate-900/70 backdrop-blur-xl flex justify-between items-center px-8 border-b border-outline-variant/10 transition-colors">
+                    <div className="flex items-center gap-4">
+                        <h2 className="font-headline font-bold text-lg text-on-surface">{title}</h2>
+                    </div>
+                    
+                    <div className="flex items-center gap-6">
+                        <div className="relative hidden md:block group">
+                            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+                            <input 
+                                className="bg-surface-container border-none rounded-full pl-10 pr-4 py-1.5 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all dark:bg-slate-800 dark:text-white" 
+                                placeholder="Search..." 
+                                type="text"
+                            />
+                        </div>
+                        
+                        <div className="flex items-center gap-3">
+                            <button className="text-on-surface-variant hover:text-primary transition-colors flex items-center p-2 rounded-full hover:bg-surface-container">
+                                <span className="material-symbols-outlined">notifications</span>
+                            </button>
+                            <button className="text-on-surface-variant hover:text-primary transition-colors flex items-center p-2 rounded-full hover:bg-surface-container">
+                                <span className="material-symbols-outlined">account_circle</span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+            );
+        };
+
+        const Layout = ({ children, title, currentMode, toggleMode }) => {
+            return (
+                <div className={`min-h-screen bg-surface dark:bg-slate-950 text-on-surface dark:text-slate-200 transition-colors duration-200`}>
+                    <Sidebar currentMode={currentMode} toggleMode={toggleMode} />
+                    <TopBar title={title} />
+                    <main className="ml-64 pt-24 pb-12 px-12 min-h-screen">
+                        {children}
+                    </main>
+                </div>
+            );
+        };
+
+        // --- Screen Components ---
+
+        const Dashboard = () => {
+            return (
+                <div className="space-y-8 animate-in fade-in duration-500">
+                    <header className="mb-8">
+                        <h2 className="text-4xl font-extrabold tracking-tight font-headline mb-2">Satsriakal, Aman</h2>
+                        <p className="text-on-surface-variant font-medium">Your Punjabi proficiency has increased by 12% this week.</p>
+                    </header>
+
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        {/* Stats Cards */}
+                        {[
+                            { title: "Success Rate", value: "80%", icon: "insights", trend: "+2.4%", color: "text-primary", bg: "bg-primary/10" },
+                            { title: "Study Sessions", value: "1", icon: "history_edu", color: "text-secondary", bg: "bg-secondary/10" },
+                            { title: "Active Groups", value: "1", icon: "category", color: "text-tertiary", bg: "bg-tertiary/10" },
+                            { title: "Study Streak", value: "1 day", icon: "local_fire_department", color: "text-orange-500", bg: "bg-orange-500/10" }
+                        ].map((stat, idx) => (
+                            <div key={idx} className="bg-surface-container-lowest dark:bg-slate-900 p-8 rounded-xl ambient-shadow border border-outline-variant/10 hover:scale-[1.02] transition-transform">
+                                <div className="flex justify-between items-start mb-4">
+                                    <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
+                                        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>{stat.icon}</span>
+                                    </div>
+                                    {stat.trend && <span className="text-xs font-bold text-primary uppercase tracking-widest">{stat.trend}</span>}
+                                </div>
+                                <p className="text-on-surface-variant text-sm font-semibold mb-1">{stat.title}</p>
+                                <h3 className="text-3xl font-black font-headline">{stat.value}</h3>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                        <div className="lg:col-span-8 space-y-8">
+                            {/* Last Session */}
+                            <div className="bg-surface-container-lowest dark:bg-slate-900 rounded-xl p-10 ambient-shadow border border-outline-variant/10 relative overflow-hidden group">
+                                <div className="absolute -right-12 -top-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors"></div>
+                                <div className="flex justify-between items-center mb-8 relative z-10">
+                                    <div>
+                                        <h4 className="text-on-surface-variant font-bold text-xs uppercase tracking-[0.2em] mb-2">Last Study Session</h4>
+                                        <h3 className="text-3xl font-black font-headline">Typing Tutor</h3>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-on-surface-variant text-sm font-medium">May 24, 2024</p>
+                                        <button className="text-primary font-bold text-sm hover:underline flex items-center justify-end gap-1 mt-1">
+                                            View Details <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="flex gap-12 items-center relative z-10">
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-end mb-3">
+                                            <span className="text-sm font-bold">Correct Words</span>
+                                            <span className="text-2xl font-black text-emerald-500">24</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-surface-container dark:bg-slate-800 rounded-full overflow-hidden">
+                                            <div className="h-full bg-emerald-500 w-[80%] rounded-full"></div>
+                                        </div>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="flex justify-between items-end mb-3">
+                                            <span className="text-sm font-bold">Wrong Answers</span>
+                                            <span className="text-2xl font-black text-error">6</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-surface-container dark:bg-slate-800 rounded-full overflow-hidden">
+                                            <div className="h-full bg-error w-[20%] rounded-full"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            {/* Mastery */}
+                             <div className="bg-surface-container-lowest dark:bg-slate-900 p-10 rounded-xl ambient-shadow border border-outline-variant/10">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h4 className="text-xl font-extrabold font-headline">Mastery Progress</h4>
+                                    <span className="px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-tight">3 / 124 words</span>
+                                </div>
+                                <div className="space-y-6">
+                                    <div className="relative pt-2">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="text-xs font-bold text-on-surface-variant uppercase">Current Milestone</span>
+                                            <span className="text-xs font-bold text-primary">2.4% Overall</span>
+                                        </div>
+                                        <div className="overflow-hidden h-4 mb-4 text-xs flex rounded-full bg-surface-container dark:bg-slate-800">
+                                            <div className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary transition-all duration-1000" style={{width: '2.4%'}}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-4 space-y-8">
+                             {/* Suggestion */}
+                            <div className="bg-primary p-8 rounded-xl text-on-primary ambient-shadow flex flex-col justify-between aspect-square relative overflow-hidden">
+                                <div className="absolute -bottom-10 -right-10 opacity-20 transform rotate-12">
+                                    <span className="material-symbols-outlined text-[12rem]">translate</span>
+                                </div>
+                                <div className="relative z-10">
+                                    <h4 className="text-on-primary/60 font-bold text-xs uppercase tracking-widest mb-4">Suggested for you</h4>
+                                    <h3 className="text-2xl font-black font-headline leading-tight">Flashcard Session: Common Phrases</h3>
+                                </div>
+                                <button className="relative z-10 mt-6 bg-white text-primary px-6 py-3 rounded-full font-bold text-sm self-start hover:shadow-lg transition-shadow">
+                                    Resume Study
+                                </button>
+                            </div>
+
+                             {/* Activity */}
+                            <div className="bg-surface-container-low dark:bg-slate-900 p-8 rounded-xl border border-outline-variant/10">
+                                <h4 className="text-sm font-bold uppercase tracking-widest mb-6">Recent Activity</h4>
+                                <div className="space-y-6">
+                                    {[
+                                        { text: 'Started "Vegetables" group', time: '2 hours ago', color: 'bg-primary' },
+                                        { text: 'Finished Typing Tutor', time: 'Yesterday', color: 'bg-outline-variant' }
+                                    ].map((act, i) => (
+                                         <div key={i} className="flex items-start gap-4">
+                                            <div className={`mt-1 w-2 h-2 rounded-full ${act.color} shrink-0`}></div>
+                                            <div>
+                                                <p className="text-sm font-semibold">{act.text}</p>
+                                                <p className="text-xs text-on-surface-variant">{act.time}</p>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const StudyActivities = () => {
+            return (
+                <div className="animate-in fade-in duration-500">
+                     <div className="mb-12">
+                        <h1 className="font-headline text-5xl font-extrabold tracking-tighter mb-4">Choose Your Path</h1>
+                        <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed">Select a study activity to master your Punjabi vocabulary. From focused typing to immersive flashcards, every session brings you closer to fluency.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                        {[
+                            { title: 'Typing Tutor', desc: 'Master Punjabi Gurmukhi script typing speed and accuracy through progressive drills.', icon: 'keyboard', color: 'from-primary/20' },
+                            { title: 'Flashcard Pro', desc: 'Spaced-repetition system optimized for long-term memory retention of complex phrases.', icon: 'style', color: 'from-tertiary/20' },
+                            { title: 'Audio Match', desc: 'Connect spoken Punjabi sounds to their written script. Perfect for improving listening skills.', icon: 'graphic_eq', color: 'from-secondary/20' }
+                        ].map((act, i) => (
+                             <div key={i} className="bg-surface-container-lowest dark:bg-slate-900 rounded-xl p-8 ambient-shadow transition-all duration-300 hover:scale-[1.02] flex flex-col h-full border border-outline-variant/10">
+                                <div className="aspect-video bg-surface-container dark:bg-slate-800 rounded-lg mb-8 overflow-hidden relative flex items-center justify-center">
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${act.color} to-transparent`}></div>
+                                    <span className="material-symbols-outlined text-6xl text-on-surface-variant relative z-10 opacity-50">{act.icon}</span>
+                                </div>
+                                <h3 className="font-headline text-2xl font-bold mb-2">{act.title}</h3>
+                                <p className="text-on-surface-variant text-sm mb-8 flex-grow">{act.desc}</p>
+                                <div className="flex items-center gap-3">
+                                    <button className="flex-1 bg-primary text-on-primary py-3 px-6 rounded-full font-headline font-bold text-sm transition-all hover:opacity-90 active:scale-95">Launch</button>
+                                    <button className="px-6 py-3 rounded-full border border-outline-variant font-headline font-bold text-sm hover:bg-surface-container transition-colors">View</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const Words = () => {
+            return (
+                <div className="animate-in fade-in duration-500 max-w-7xl mx-auto space-y-12">
+                     <div className="flex justify-between items-end">
+                        <div>
+                            <h3 className="text-3xl font-headline font-extrabold tracking-tight">Vocabulary</h3>
+                            <p className="text-on-surface-variant mt-1">Review and manage your Punjabi word bank.</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <button className="px-4 py-2 bg-surface-container text-sm font-semibold rounded-full hover:bg-surface-variant transition-colors flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">filter_list</span> Filter
+                            </button>
+                            <button className="px-4 py-2 bg-primary text-on-primary text-sm font-semibold rounded-full hover:opacity-90 transition-colors flex items-center gap-2">
+                                <span className="material-symbols-outlined text-sm">add</span> New Word
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="overflow-hidden rounded-xl bg-surface-container-lowest dark:bg-slate-900 border border-outline-variant/10 ambient-shadow">
+                        <table className="w-full text-left border-collapse">
+                            <thead>
+                                <tr className="bg-surface-container-low dark:bg-slate-800 border-b border-outline-variant/10">
+                                    <th className="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant">Punjabi</th>
+                                    <th className="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant">Romanized</th>
+                                    <th className="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant">English</th>
+                                    <th className="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant">Correct</th>
+                                    <th className="px-6 py-5 text-xs font-bold uppercase tracking-widest text-on-surface-variant text-right">Wrong</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-outline-variant/10">
+                                {[
+                                    { punjabi: 'ਪਿਆਰ', roman: 'Pyaar', english: 'Love', correct: 42, wrong: 3 },
+                                    { punjabi: 'ਦੋਸਤ', roman: 'Dost', english: 'Friend', correct: 28, wrong: 12 },
+                                    { punjabi: 'ਪਾਣੀ', roman: 'Paani', english: 'Water', correct: 156, wrong: 0 }
+                                ].map((word, i) => (
+                                    <tr key={i} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                                        <td className="px-6 py-5 text-2xl font-bold">{word.punjabi}</td>
+                                        <td className="px-6 py-5 text-on-surface-variant">{word.roman}</td>
+                                        <td className="px-6 py-5">{word.english}</td>
+                                        <td className="px-6 py-5"><span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-bold">{word.correct}</span></td>
+                                        <td className="px-6 py-5 text-right"><span className="px-3 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 text-sm font-bold">{word.wrong}</span></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        };
+
+        const WordGroups = () => {
+             return (
+                <div className="animate-in fade-in duration-500 max-w-7xl mx-auto space-y-12">
+                     <div className="flex justify-between items-end">
+                        <div>
+                            <h2 className="text-4xl font-black font-headline tracking-tighter">Word Groups</h2>
+                            <p className="text-on-surface-variant mt-2 text-lg">Organize your Punjabi vocabulary by category and theme.</p>
+                        </div>
+                        <button className="flex items-center gap-2 px-6 py-3 bg-primary text-on-primary font-headline font-bold rounded-xl ambient-shadow hover:scale-[1.02] transition-all">
+                            <span className="material-symbols-outlined text-lg">add</span> New Group
+                        </button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                            { title: 'Food & Dining', words: 48, icon: 'restaurant', color: 'text-primary', bg: 'bg-primary/10' },
+                            { title: 'Core Adjectives', words: 32, icon: 'mood', color: 'text-secondary', bg: 'bg-secondary/10' },
+                            { title: 'Travel & Directions', words: 24, icon: 'commute', color: 'text-tertiary', bg: 'bg-tertiary/10' }
+                        ].map((group, i) => (
+                            <div key={i} className="bg-surface-container-lowest dark:bg-slate-900 rounded-xl p-8 ambient-shadow hover:scale-[1.02] transition-all cursor-pointer border border-outline-variant/10">
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className={`p-3 rounded-xl ${group.bg} ${group.color}`}>
+                                        <span className="material-symbols-outlined text-3xl">{group.icon}</span>
+                                    </div>
+                                    <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">{group.words} Words</span>
+                                </div>
+                                <h3 className="text-2xl font-black font-headline mb-2">{group.title}</h3>
+                                <div className="mt-8 flex justify-end">
+                                    <span className="material-symbols-outlined text-outline-variant">arrow_forward</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const Sessions = () => {
+             return (
+                <div className="animate-in fade-in duration-500 max-w-7xl mx-auto space-y-12">
+                     <div className="flex justify-between items-end">
+                        <div>
+                            <h2 className="text-4xl font-black tracking-tight mb-2">Study Sessions</h2>
+                            <p className="text-on-surface-variant font-medium">Review your historical progress and session details.</p>
+                        </div>
+                    </div>
+
+                    <div className="bg-surface-container-lowest dark:bg-slate-900 rounded-xl shadow-sm overflow-hidden border border-outline-variant/10">
+                        <table className="w-full text-left">
+                            <thead>
+                                <tr className="bg-surface-container-low dark:bg-slate-800 text-xs uppercase tracking-widest text-on-surface-variant">
+                                    <th className="px-8 py-5">ID</th>
+                                    <th className="px-8 py-5">Activity</th>
+                                    <th className="px-8 py-5">Group</th>
+                                    <th className="px-8 py-5">Time</th>
+                                    <th className="px-8 py-5 text-center">Reviews</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-outline-variant/10">
+                                {[
+                                    { id: '#SS-4921', act: 'Flashcards', group: 'Kitchen Essentials', time: 'Oct 24, 2:15 PM', count: 42, icon: 'quiz' },
+                                    { id: '#SS-4918', act: 'Pronunciation', group: 'Common Verbs', time: 'Oct 23, 10:05 AM', count: 15, icon: 'mic' }
+                                ].map((session, i) => (
+                                    <tr key={i} className="hover:bg-surface-container-low/50 transition-colors cursor-pointer">
+                                        <td className="px-8 py-6 font-mono text-xs font-bold text-outline-variant">{session.id}</td>
+                                        <td className="px-8 py-6 flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                                <span className="material-symbols-outlined text-sm">{session.icon}</span>
+                                            </div>
+                                            <span className="font-bold">{session.act}</span>
+                                        </td>
+                                        <td className="px-8 py-6"><span className="px-3 py-1 bg-surface-container rounded-full text-xs font-bold">{session.group}</span></td>
+                                        <td className="px-8 py-6 text-sm text-on-surface-variant">{session.time}</td>
+                                        <td className="px-8 py-6 text-center font-black">{session.count}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            );
+        };
+
+        const Settings = () => {
+             return (
+                <div className="animate-in fade-in duration-500 max-w-4xl mx-auto space-y-12">
+                     <section>
+                        <h3 className="font-headline text-3xl font-extrabold tracking-tight mb-2">Preferences</h3>
+                        <p className="text-on-surface-variant">Customize your learning environment and manage your personal study data.</p>
+                    </section>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-surface-container-lowest dark:bg-slate-900 p-8 rounded-xl border border-outline-variant/10 flex flex-col items-center text-center justify-center">
+                            <div className="w-24 h-24 rounded-full bg-primary/20 p-1 mb-4 flex items-center justify-center">
+                                 <span className="material-symbols-outlined text-5xl text-primary">account_circle</span>
+                            </div>
+                            <h5 className="font-headline font-bold text-lg">Arjun Singh</h5>
+                            <p className="text-xs text-on-surface-variant mb-4">arjun.s@language.edu</p>
+                            <button className="text-sm font-bold text-primary px-4 py-2 hover:bg-surface-container rounded-lg transition-colors">Manage Account</button>
+                        </div>
+
+                         <div className="bg-surface-container-lowest dark:bg-slate-900 p-8 rounded-xl border border-outline-variant/10 flex flex-col justify-center">
+                             <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 rounded-full bg-error/10 flex items-center justify-center text-error">
+                                    <span className="material-symbols-outlined">delete_forever</span>
+                                </div>
+                                <h4 className="font-headline text-xl font-bold">Data Management</h4>
+                            </div>
+                            <p className="text-sm text-on-surface-variant mb-6">Resetting your history will permanently delete all study progress. This action cannot be undone.</p>
+                            <button className="px-6 py-3 bg-error/10 text-error font-bold rounded-lg hover:bg-error hover:text-white transition-colors self-start">
+                                Reset History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+
+        // --- App Wrapper ---
+        const App = () => {
+            const [mode, setMode] = useState('light');
+
+            useEffect(() => {
+                const html = document.documentElement;
+                if (mode === 'dark') {
+                    html.classList.add('dark');
+                } else {
+                    html.classList.remove('dark');
+                }
+            }, [mode]);
+
+            const toggleMode = () => {
+                setMode(prev => prev === 'light' ? 'dark' : 'light');
+            };
+
+            return (
+                <MemoryRouter>
+                    <Layout title="LangPortal" currentMode={mode} toggleMode={toggleMode}>
+                        <Routes>
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/activities" element={<StudyActivities />} />
+                            <Route path="/words" element={<Words />} />
+                            <Route path="/groups" element={<WordGroups />} />
+                            <Route path="/sessions" element={<Sessions />} />
+                            <Route path="/settings" element={<Settings />} />
+                        </Routes>
+                    </Layout>
+                </MemoryRouter>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

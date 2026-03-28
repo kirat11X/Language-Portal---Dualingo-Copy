@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LangPortal - Study Sessions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#b28cff",
+              "on-tertiary-container": "#ffd9e2",
+              "secondary-container": "#3c2a6b",
+              "surface-container-lowest": "#0f172a",
+              "on-error": "#69001d",
+              "tertiary-container": "#8e294c",
+              "on-surface": "#f1f5f9",
+              "on-primary-container": "#e9ddff",
+              "primary": "#b28cff",
+              "tertiary-fixed": "#ff8eac",
+              "on-background": "#f1f5f9",
+              "error-dim": "#ffb2bc",
+              "secondary-fixed-dim": "#ccbaff",
+              "primary-fixed": "#e9ddff",
+              "on-tertiary": "#56001e",
+              "tertiary": "#f77c9e",
+              "surface-container-low": "#1e293b",
+              "error-container": "#93001a",
+              "inverse-on-surface": "#1e293b",
+              "tertiary-dim": "#f77c9e",
+              "surface-container": "#334155",
+              "on-surface-variant": "#94a3b8",
+              "surface-variant": "#475569",
+              "on-tertiary-fixed-variant": "#711036",
+              "surface": "#0f172a",
+              "primary-container": "#5531a8",
+              "on-secondary-fixed": "#21005d",
+              "outline-variant": "#475569",
+              "secondary-fixed": "#eaddff",
+              "on-secondary": "#32127a",
+              "on-secondary-container": "#eaddff",
+              "on-secondary-fixed-variant": "#4f378b",
+              "on-primary-fixed": "#21005d",
+              "background": "#0f172a",
+              "surface-container-highest": "#475569",
+              "surface-bright": "#1e293b",
+              "tertiary-fixed-dim": "#f77c9e",
+              "surface-dim": "#0f172a",
+              "inverse-surface": "#e2e8f0",
+              "surface-tint": "#b28cff",
+              "secondary": "#cbc1ff",
+              "on-primary": "#390083",
+              "inverse-primary": "#702ae1",
+              "on-error-container": "#ffdad9",
+              "on-primary-fixed-variant": "#5531a8",
+              "secondary-dim": "#cbc1ff",
+              "surface-container-high": "#1e293b",
+              "primary-dim": "#b28cff",
+              "on-tertiary-fixed": "#31101d",
+              "outline": "#94a3b8",
+              "error": "#ffb4ab"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #0f172a;
+      }
+      h1, h2, h3, .brand-font {
+        font-family: 'Manrope', sans-serif;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-surface-container-low flex flex-col gap-2 p-6 z-50">
+<div class="mb-8">
+<h1 class="text-2xl font-black text-primary tracking-tighter">LangPortal</h1>
+<p class="text-xs font-headline font-semibold text-on-surface-variant">Punjabi Learning</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight text-on-surface-variant hover:bg-white/10 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight text-on-surface-variant hover:bg-white/10 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">school</span>
+                Study Activities
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight text-on-surface-variant hover:bg-white/10 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">translate</span>
+                Words
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight text-on-surface-variant hover:bg-white/10 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">folder_shared</span>
+                Word Groups
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight bg-white/10 text-primary rounded-[3rem] shadow-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+                Sessions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 font-headline font-semibold text-sm tracking-tight text-on-surface-variant hover:bg-white/10 transition-all duration-200 rounded-xl group" href="#">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+                Start Studying
+            </button>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-surface/70 backdrop-blur-xl flex justify-between items-center px-8">
+<div class="flex items-center gap-2">
+<span class="text-on-surface-variant font-headline font-bold">Sessions</span>
+<span class="material-symbols-outlined text-outline-variant text-sm">chevron_right</span>
+<span class="text-primary font-headline font-bold">History</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-outline text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 w-64 text-on-surface" placeholder="Search sessions..." type="text"/>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">account_circle</span>
+</div>
+</div>
+</header>
+<!-- Main Content Shell -->
+<main class="ml-64 pt-24 px-12 pb-12">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-4xl font-black text-on-surface tracking-tight mb-2">Study Sessions</h2>
+<p class="text-on-surface-variant font-medium">Review your historical progress and session details.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 bg-surface-container-high text-on-surface font-semibold rounded-full hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">filter_list</span>
+                    Filter
+                </button>
+<button class="px-6 py-2.5 bg-surface-container-high text-on-surface font-semibold rounded-full hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">download</span>
+                    Export
+                </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Session Stats -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-8 bg-surface-container-low p-8 rounded-xl shadow-sm border border-outline-variant/10">
+<h3 class="font-headline font-bold text-lg mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">analytics</span>
+                    Recent Activity Overview
+                </h3>
+<div class="h-48 flex items-end justify-between gap-4 px-4">
+<!-- Fake Chart Bars -->
+<div class="w-full bg-primary/20 rounded-t-lg h-[40%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[60%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[35%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[85%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[55%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[70%] hover:bg-primary/30 transition-all"></div>
+<div class="w-full bg-primary/20 rounded-t-lg h-[95%] hover:bg-primary/30 transition-all shadow-[0_-4px_12px_rgba(178,140,255,0.2)]"></div>
+</div>
+<div class="flex justify-between mt-4 text-xs font-bold text-on-surface-variant px-2">
+<span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span class="text-primary">SUN</span>
+</div>
+</div>
+<div class="col-span-4 flex flex-col gap-6">
+<div class="flex-1 bg-gradient-to-br from-primary to-primary-container p-8 rounded-xl text-on-primary shadow-lg flex flex-col justify-between">
+<span class="material-symbols-outlined text-4xl opacity-50">bolt</span>
+<div>
+<p class="text-5xl font-black mb-1">12h</p>
+<p class="text-sm font-bold opacity-80 uppercase tracking-widest">Total Study Time</p>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-low p-8 rounded-xl shadow-sm border border-outline-variant/10 flex flex-col justify-between">
+<span class="material-symbols-outlined text-tertiary text-4xl">favorite</span>
+<div>
+<p class="text-4xl font-black text-on-surface mb-1">94%</p>
+<p class="text-sm font-bold text-on-surface-variant uppercase tracking-widest">Accuracy Rate</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Session List Table -->
+<div class="bg-surface-container-low rounded-xl shadow-sm overflow-hidden border border-outline-variant/10">
+<div class="p-6 border-b border-surface-container flex justify-between items-center">
+<h3 class="font-headline font-bold text-xl text-on-surface">Past Sessions</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-green-400"></span> Completed
+                    </div>
+<div class="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span> In Progress
+                    </div>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high text-on-surface-variant font-headline font-bold text-xs uppercase tracking-widest">
+<th class="px-8 py-5">ID</th>
+<th class="px-8 py-5">Activity Name</th>
+<th class="px-8 py-5">Group Name</th>
+<th class="px-8 py-5">Start Time</th>
+<th class="px-8 py-5">End Time</th>
+<th class="px-8 py-5 text-center">Review Count</th>
+<th class="px-8 py-5"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-high/50 transition-colors group">
+<td class="px-8 py-6 font-mono text-xs text-outline font-bold">#SS-4921</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">quiz</span>
+</div>
+<span class="font-bold text-on-surface">Flashcards</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold">Kitchen Essentials</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 24, 2:15 PM</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 24, 2:45 PM</td>
+<td class="px-8 py-6 text-center">
+<span class="text-lg font-black text-on-surface">42</span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors group-hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/50 transition-colors group">
+<td class="px-8 py-6 font-mono text-xs text-outline font-bold">#SS-4918</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-xl">mic</span>
+</div>
+<span class="font-bold text-on-surface">Pronunciation Check</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold">Common Verbs</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 23, 10:05 AM</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 23, 10:20 AM</td>
+<td class="px-8 py-6 text-center">
+<span class="text-lg font-black text-on-surface">15</span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors group-hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-high/50 transition-colors group">
+<td class="px-8 py-6 font-mono text-xs text-outline font-bold">#SS-4915</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-xl">edit_note</span>
+</div>
+<span class="font-bold text-on-surface">Typing Practice</span>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold">Basic Greetings</span>
+</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 22, 6:30 PM</td>
+<td class="px-8 py-6 text-sm text-on-surface-variant font-medium">Oct 22, 7:15 PM</td>
+<td class="px-8 py-6 text-center">
+<span class="text-lg font-black text-on-surface">88</span>
+</td>
+<td class="px-8 py-6 text-right">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors group-hover:bg-white/10 rounded-full">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-high/20 flex justify-center">
+<nav class="flex gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 border border-outline-variant shadow-sm text-on-surface hover:text-primary transition-colors">1</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-on-surface-variant font-bold">2</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-on-surface-variant font-bold">3</button>
+<span class="flex items-center px-2 text-outline">...</span>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition-colors text-on-surface-variant font-bold">12</button>
+</nav>
+</div>
+</div>
+<!-- Detail View Section -->
+<div class="mt-24 pt-12 border-t-2 border-dashed border-outline-variant/30">
+<div class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all group">
+<span class="material-symbols-outlined transition-transform group-active:-translate-x-1">arrow_back</span>
+</button>
+<div>
+<h2 class="text-3xl font-black text-on-surface">Session Details</h2>
+<p class="text-on-surface-variant font-medium font-mono text-xs uppercase tracking-tighter">ID: #SS-4921</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="px-8 py-3 bg-primary text-on-primary font-bold rounded-full shadow-lg hover:shadow-primary/40 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">play_arrow</span>
+                        Redo Activity
+                    </button>
+</div>
+</div>
+<!-- Detail Info Cards -->
+<div class="grid grid-cols-4 gap-6 mb-12">
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col gap-4">
+<div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">quiz</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Activity</p>
+<p class="text-xl font-black text-on-surface">Flashcards</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col gap-4">
+<div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">folder_shared</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Group</p>
+<p class="text-xl font-black text-on-surface">Kitchen Essentials</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col gap-4">
+<div class="w-12 h-12 bg-tertiary/20 rounded-full flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Duration</p>
+<p class="text-xl font-black text-on-surface">30 Minutes</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 shadow-sm flex flex-col gap-4">
+<div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center text-green-400">
+<span class="material-symbols-outlined">checklist</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-1">Reviewed</p>
+<p class="text-xl font-black text-on-surface">42 Words</p>
+</div>
+</div>
+</div>
+<!-- Reviewed Words Table -->
+<div class="bg-surface-container-low rounded-xl shadow-sm border border-outline-variant/10">
+<div class="p-8">
+<h3 class="font-headline font-bold text-2xl text-on-surface mb-2">Reviewed Words</h3>
+<p class="text-on-surface-variant font-medium">Breakdown of each word performed during this session.</p>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-high text-on-surface-variant font-headline font-bold text-xs uppercase tracking-widest">
+<th class="px-8 py-4">Punjabi</th>
+<th class="px-8 py-4">Romanization</th>
+<th class="px-8 py-4">English</th>
+<th class="px-8 py-4 text-center">Correct</th>
+<th class="px-8 py-4 text-right">Time Spent</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-primary/10 transition-colors">
+<td class="px-8 py-6 text-2xl font-bold text-primary">ਚਮਚਾ</td>
+<td class="px-8 py-6 font-medium text-on-surface-variant">Chamcha</td>
+<td class="px-8 py-6 font-bold text-on-surface">Spoon</td>
+<td class="px-8 py-6 text-center">
+<span class="material-symbols-outlined text-green-400" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</td>
+<td class="px-8 py-6 text-right font-mono text-sm text-outline">4.2s</td>
+</tr>
+<tr class="hover:bg-primary/10 transition-colors">
+<td class="px-8 py-6 text-2xl font-bold text-primary">ਪਲੇਟ</td>
+<td class="px-8 py-6 font-medium text-on-surface-variant">Plēṭa</td>
+<td class="px-8 py-6 font-bold text-on-surface">Plate</td>
+<td class="px-8 py-6 text-center">
+<span class="material-symbols-outlined text-green-400" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</td>
+<td class="px-8 py-6 text-right font-mono text-sm text-outline">2.1s</td>
+</tr>
+<tr class="hover:bg-primary/10 transition-colors">
+<td class="px-8 py-6 text-2xl font-bold text-primary">ਗਲਾਸ</td>
+<td class="px-8 py-6 font-medium text-on-surface-variant">Galāsa</td>
+<td class="px-8 py-6 font-bold text-on-surface">Glass</td>
+<td class="px-8 py-6 text-center">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">cancel</span>
+</td>
+<td class="px-8 py-6 text-right font-mono text-sm text-outline">12.5s</td>
+</tr>
+<tr class="hover:bg-primary/10 transition-colors">
+<td class="px-8 py-6 text-2xl font-bold text-primary">ਛੁਰੀ</td>
+<td class="px-8 py-6 font-medium text-on-surface-variant">Churī</td>
+<td class="px-8 py-6 font-bold text-on-surface">Knife</td>
+<td class="px-8 py-6 text-center">
+<span class="material-symbols-outlined text-green-400" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</td>
+<td class="px-8 py-6 text-right font-mono text-sm text-outline">3.8s</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body></html>

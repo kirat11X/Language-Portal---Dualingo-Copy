@@ -1,0 +1,248 @@
+Senior Project Review
+Project: Punjabi LangPortal
+Review date: 2026-03-23
+
+Scope
+- I reviewed all project-authored files in this repository.
+- I treated `frontend/node_modules/` as third-party generated vendor code, so I did not do a line-by-line senior review of dependency internals. I reviewed `frontend/package-lock.json` instead.
+- I included the design reference HTML and image assets in the audit because they are part of the project context and show product direction.
+
+High-level state of the project
+- The project has a strong product idea, a clear fullstack specification, a working backend scaffold, a working frontend scaffold, seeded sample data, and multiple UI explorations.
+- The frontend builds successfully for production.
+- The backend Python files are syntactically valid.
+- The biggest gap is not missing structure; it is contract alignment between frontend types/pages and backend responses.
+- The second biggest gap is that several frontend flows look implemented in the UI but are not yet functionally connected.
+
+Verification completed
+- `npm run build` in `frontend/`: passed.
+- `python -m py_compile ...` for backend files: passed.
+- `python -c "import fastapi, sqlalchemy, pydantic"`: failed in the current local interpreter because `sqlalchemy` is not installed in the active Python environment.
+
+Most important findings
+1. Session-related frontend pages are currently broken by frontend/backend contract mismatches.
+   - Frontend expects `reviews`, `activity_name`, and `review_count`.
+   - Backend returns `review_items`, `study_activity_name`, and `review_items_count`.
+   - Result: session detail and activity session views will show wrong/empty data or fail at runtime.
+
+2. Study Activities cards are not wired to navigation.
+   - The UI shows `Launch` and `View` buttons, but they do not navigate anywhere.
+   - This blocks two major user journeys even though routes already exist.
+
+3. The frontend styling system is inconsistent.
+   - Several custom classes/tokens are used without being defined in `index.css`, for example `card`, `skeleton`, `bg-primary-surface`, `dark:text-dark-on-surface`, `shadow-ambient`, and `gurmukhi-text`.
+   - The app can still build, but many styles will silently not apply.
+
+4. The backend review endpoint does not validate that a reviewed word belongs to the session’s selected group.
+   - This creates data-integrity risk and can produce invalid study history.
+
+5. Documentation is ahead of implementation.
+   - Specs mention ShadCN UI and React Query, but the actual frontend uses Tailwind plus plain `fetch`.
+   - That is okay for an early prototype, but the docs should now be updated to reflect reality or the implementation should be upgraded to match the docs.
+
+6. Some dashboard/session UI data is hardcoded or computed unsafely.
+   - Dashboard links to `/sessions/1` instead of the actual latest session.
+   - Some percentages can divide by zero.
+   - Session detail displays random time spent values.
+
+What is already done well
+- Clear business problem and API-first thinking.
+- Good repo split between backend, frontend, and UI reference material.
+- Backend models and routes are modular enough for a prototype.
+- Frontend routing structure is already laid out for the full app.
+- Theme toggle exists and persists in local storage.
+- Seed data makes local development easier.
+- Visual direction is stronger than a generic CRUD dashboard.
+
+File-by-file review
+
+Root
+- `README.MD`: strong fullstack product and API specification; currently more ambitious than the actual implementation and should be reconciled with current code.
+- `SENIOR_PROJECT_REVIEW.txt`: this review file.
+
+Backend docs and setup
+- `backend-python/backend_python.md`: detailed backend spec with useful endpoint and schema guidance; implementation only partially matches it right now.
+- `backend-python/requirements.txt`: minimal dependency list is fine for a prototype, but there is no environment/bootstrap instruction file yet.
+- `backend-python/seed.py`: useful starter seed script; only seeds four words and a few activities, and it stores `words_count` manually so the count can drift later.
+
+Backend package files
+- `backend-python/app/__init__.py`: empty package marker; acceptable.
+- `backend-python/app/database.py`: simple SQLite setup; main risk is that `sqlite:///./words.db` depends on the directory from which the server is started.
+- `backend-python/app/models.py`: schema is clean and understandable for a prototype; denormalized `groups.words_count` will need synchronization logic or removal later.
+- `backend-python/app/schemas.py`: response objects are useful, but `PaginatedResponse.items: List[Any]` is too loose and hides contract problems from the frontend.
+- `backend-python/app/main.py`: straightforward app bootstrap and router registration; CORS is very open, which is fine for a prototype but not for production.
+
+Backend routes
+- `backend-python/app/routes/__init__.py`: empty package marker; acceptable.
+- `backend-python/app/routes/words.py`: list/detail endpoints are functional and readable; sorting is flexible, but there is no stronger allowlist validation for sort fields.
+- `backend-python/app/routes/groups.py`: list/detail endpoints are functional; group detail pagination works, but `words_count` depends on stored metadata rather than live calculation.
+- `backend-python/app/routes/dashboard.py`: dashboard and study activity endpoints exist; streak is placeholder logic and `reset_history` accepts free-form scope without validation.
+- `backend-python/app/routes/sessions.py`: session create/list/detail/review endpoints exist; biggest issue is response naming mismatch with the frontend, and review submission does not enforce that the word belongs to the chosen group.
+
+Frontend docs and config
+- `frontend/frontend.md`: strong UI/product spec; like the README, it is ahead of the implementation in a few places.
+- `frontend/package.json`: modern, lean dependency set; missing lint/test scripts and missing the documented React Query/ShadCN packages.
+- `frontend/package-lock.json`: generated lock file present and healthy; confirms dependency versions.
+- `frontend/tsconfig.json`: standard project references setup.
+- `frontend/tsconfig.app.json`: strict TypeScript baseline is good.
+- `frontend/tsconfig.node.json`: fine for Vite config typing.
+- `frontend/vite.config.ts`: good simple config with alias support.
+- `frontend/index.html`: good metadata and fonts, but still uses the default Vite favicon.
+
+Frontend entry and shared core
+- `frontend/src/main.tsx`: clean entry file.
+- `frontend/src/App.tsx`: route map is well organized and already covers the intended pages.
+- `frontend/src/index.css`: sets up a design token base, but it does not define several classes/tokens that components rely on.
+- `frontend/src/vite-env.d.ts`: normal Vite type declaration.
+- `frontend/src/types/index.ts`: central typing is useful, but several interfaces do not match backend payloads.
+- `frontend/src/services/api.ts`: good central API layer, but it returns shapes that do not accurately normalize backend responses for sessions.
+- `frontend/src/hooks/useTheme.tsx`: theme management is straightforward and works for the current client-only app.
+- `frontend/src/layouts/MainLayout.tsx`: desktop layout is simple and clean; currently not mobile-responsive because the sidebar and header width are fixed.
+
+Frontend components
+- `frontend/src/components/StatsCard.tsx`: reusable idea is good, but it depends on undefined classes and is not actually used by the current pages.
+- `frontend/src/components/Header.tsx`: header title logic is fine; search/notification/profile actions are visual only, and the fixed-width desktop layout is not responsive.
+- `frontend/src/components/Sidebar.tsx`: navigation structure is good and theme toggle works; `Start Studying` is currently a dead button.
+- `frontend/src/components/LoadingSkeleton.tsx`: reusable loading component is useful, but it relies on undefined `card` and `skeleton` classes.
+- `frontend/src/components/Pagination.tsx`: logic is solid for a reusable pagination control.
+
+Frontend pages
+- `frontend/src/pages/Dashboard.tsx`: visually strong page and uses real dashboard data, but it contains hardcoded copy, a hardcoded session link, and zero-division risks in progress bars.
+- `frontend/src/pages/StudyActivities.tsx`: good card layout, but `Launch` and `View` buttons do not navigate and activity naming assumptions do not fully match seeded backend data.
+- `frontend/src/pages/StudyActivityLaunch.tsx`: group selection and session creation are wired; after creation it only shows an alert and does not route the user into a real activity flow.
+- `frontend/src/pages/StudyActivityShow.tsx`: page exists, but pagination is logically wrong because it paginates all sessions first and filters by activity afterward; it also expects fields the backend does not return.
+- `frontend/src/pages/Words.tsx`: clean list page and row navigation works; filters, sorting controls, pagination, and add-word behavior are still placeholders.
+- `frontend/src/pages/WordDetail.tsx`: nice detail view and data binding mostly works; action buttons are placeholders and some style tokens/classes are undefined.
+- `frontend/src/pages/WordGroups.tsx`: visual card grid is good; no pagination or creation flow yet.
+- `frontend/src/pages/GroupDetail.tsx`: useful detail/pagination pattern; `Study This Group` should take the user into the launch flow with the group preselected.
+- `frontend/src/pages/StudySessions.tsx`: sessions table exists, but it expects `activity_name` and `review_count` instead of backend `study_activity_name` and `review_items_count`.
+- `frontend/src/pages/StudySessionDetail.tsx`: best example of current contract mismatch; it expects `reviews` plus nested `review.word`, while backend returns `review_items` with flattened word fields.
+- `frontend/src/pages/Settings.tsx`: reset-history action is connected; profile data and account management are static placeholders.
+
+UI design references
+- `UI_UX_stitch/amrit_vista/DESIGN.md`: strong visual direction document; it gives the project a brand point of view instead of a generic app look.
+- `UI_UX_stitch/dashboard/code.html`: dashboard exploration in light mode; useful reference for the implemented dashboard page.
+- `UI_UX_stitch/dashboard_dark/code.html`: dashboard exploration in dark mode; useful reference for theme behavior.
+- `UI_UX_stitch/settings/code.html`: settings exploration in light mode.
+- `UI_UX_stitch/settings_dark/code.html`: settings exploration in dark mode.
+- `UI_UX_stitch/study_activities/code.html`: study activities exploration in light mode.
+- `UI_UX_stitch/study_activities_dark/code.html`: study activities exploration in dark mode.
+- `UI_UX_stitch/study_sessions/code.html`: study sessions exploration in light mode.
+- `UI_UX_stitch/study_sessions_dark/code.html`: study sessions exploration in dark mode.
+- `UI_UX_stitch/word_groups/code.html`: word groups exploration in light mode.
+- `UI_UX_stitch/word_groups_dark/code.html`: word groups exploration in dark mode.
+- `UI_UX_stitch/words_details/code.html`: words/word detail exploration in light mode.
+- `UI_UX_stitch/words_details_dark/code.html`: words/word detail exploration in dark mode.
+
+Reference prototype assets
+- `reference_images/code.html`: earlier React-like visual prototype used as a design and layout reference.
+- `reference_images/dashboard.png`: dashboard mock screenshot.
+- `reference_images/sessions.png`: sessions mock screenshot.
+- `reference_images/settings.png`: settings mock screenshot.
+- `reference_images/study_activities_launch.png`: study activity launch mock screenshot.
+- `reference_images/study_activities.png`: study activities mock screenshot.
+- `reference_images/study_activities_view.png`: study activity detail mock screenshot.
+- `reference_images/study_session_detail.png`: session detail mock screenshot.
+- `reference_images/word_group_detail.png`: group detail mock screenshot.
+- `reference_images/word_groups.png`: word groups mock screenshot.
+- `reference_images/words_detail.png`: word detail mock screenshot.
+- `reference_images/words.png`: words list mock screenshot.
+
+UI stitch screenshots
+- `UI_UX_stitch/dashboard/screen.png`: dashboard visual capture.
+- `UI_UX_stitch/dashboard_dark/screen.png`: dashboard dark visual capture.
+- `UI_UX_stitch/settings/screen.png`: settings visual capture.
+- `UI_UX_stitch/settings_dark/screen.png`: settings dark visual capture.
+- `UI_UX_stitch/study_activities/screen.png`: study activities visual capture.
+- `UI_UX_stitch/study_activities_dark/screen.png`: study activities dark visual capture.
+- `UI_UX_stitch/study_sessions/screen.png`: study sessions visual capture.
+- `UI_UX_stitch/study_sessions_dark/screen.png`: study sessions dark visual capture.
+- `UI_UX_stitch/word_groups/screen.png`: word groups visual capture.
+- `UI_UX_stitch/word_groups_dark/screen.png`: word groups dark visual capture.
+- `UI_UX_stitch/words_details/screen.png`: words detail visual capture.
+- `UI_UX_stitch/words_details_dark/screen.png`: words detail dark visual capture.
+
+Third-party generated area
+- `frontend/node_modules/`: installed dependency tree, generated from `package-lock.json`; not part of the custom project code review.
+
+What has been done so far in senior-dev language
+- Product/problem statement is documented.
+- API contract and data model are specified.
+- Backend project structure has been created.
+- Database models have been implemented.
+- Core backend read endpoints are implemented.
+- Study-session create and review endpoints are implemented.
+- Reset-history endpoint is implemented.
+- Seed script exists for local demo data.
+- Frontend app bootstrapping is complete.
+- Routing structure is complete for the main screens.
+- Theme handling is implemented.
+- Shared API client is implemented.
+- Main product pages are scaffolded and visually built.
+- Design system exploration and reference screens exist.
+- Frontend production build passes.
+
+What still needs to be done next
+
+Priority 1: Make the app trustworthy end-to-end
+1. Align backend response names and frontend types.
+   - Decide one naming convention and enforce it everywhere.
+   - Fix session list/detail payloads first.
+2. Normalize API responses inside `frontend/src/services/api.ts`.
+   - Convert backend payloads into frontend-safe shapes before pages consume them.
+3. Fix `StudySessionDetail`, `StudySessions`, and `StudyActivityShow`.
+   - These are the most obviously broken user flows today.
+4. Add error handling states to every async page.
+   - Right now many pages can get stuck in loading on fetch failure.
+
+Priority 2: Finish the main learning flows
+1. Make `Launch` and `View` buttons in Study Activities navigate correctly.
+2. After session creation, redirect into the selected activity or session detail page.
+3. Make `Study This Group` preselect the current group in the launch flow.
+4. Make `Start Studying` in the sidebar do something useful.
+
+Priority 3: Fix data integrity and backend safety
+1. Enforce that reviewed words belong to the session’s group.
+2. Validate `reset_history.scope` with an enum-like schema instead of free-form strings.
+3. Replace placeholder streak logic with real date-based streak calculation.
+4. Decide whether `groups.words_count` stays denormalized or becomes computed.
+5. Move database configuration to environment variables/settings.
+
+Priority 4: Make the UI production-ready
+1. Clean up the design token system in `index.css`.
+2. Remove or define all missing utility classes.
+3. Make layout responsive for tablet/mobile.
+4. Replace hardcoded copy and hardcoded user/session values with real data or controlled placeholders.
+5. Replace `alert()` and `confirm()` flows with in-app UI feedback.
+
+Priority 5: Improve engineering quality
+1. Add linting and formatting scripts.
+2. Add frontend component/page tests for contract-heavy pages.
+3. Add backend API tests for words, groups, sessions, and reset history.
+4. Add a real setup guide:
+   - backend venv creation
+   - dependency installation
+   - seeding
+   - running backend
+   - running frontend
+5. Update docs to match the actual stack or upgrade the implementation to match the docs.
+
+Recommended implementation order
+1. Fix type and payload mismatches first.
+2. Wire navigation for study activities and group study.
+3. Add error/loading/empty states.
+4. Harden backend validation.
+5. Clean styling tokens and responsiveness.
+6. Add tests and better docs.
+
+Senior recommendation
+- Do not start adding new features yet.
+- First spend one focused pass making the existing flows correct:
+  sessions list -> session detail -> activity launch -> review submission -> dashboard.
+- Once that loop is reliable, the rest of the product will move much faster and with less rework.
+
+Bottom line
+- This is a promising prototype with good structure and strong design intent.
+- The project is not blocked by architecture problems.
+- It is currently blocked by integration discipline: contracts, naming consistency, wired flows, and a few missing validation rules.
+- If those are fixed first, this becomes a solid portfolio-quality fullstack app very quickly.

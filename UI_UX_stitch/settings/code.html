@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - LangPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#a67aff",
+              "on-tertiary-container": "#64042d",
+              "secondary-container": "#d8caff",
+              "surface-container-lowest": "#ffffff",
+              "on-error": "#ffefef",
+              "tertiary-container": "#ff8eac",
+              "on-surface": "#2c2f31",
+              "on-primary-container": "#2e006c",
+              "primary": "#702ae1",
+              "tertiary-fixed": "#ff8eac",
+              "on-background": "#2c2f31",
+              "error-dim": "#a70138",
+              "secondary-fixed-dim": "#ccbaff",
+              "primary-fixed": "#b28cff",
+              "on-tertiary": "#ffeff1",
+              "tertiary": "#9e3657",
+              "surface-container-low": "#eff1f3",
+              "error-container": "#f74b6d",
+              "inverse-on-surface": "#9b9d9f",
+              "tertiary-dim": "#8e294c",
+              "surface-container": "#e6e8eb",
+              "on-surface-variant": "#595c5e",
+              "surface-variant": "#dadde0",
+              "on-tertiary-fixed-variant": "#711036",
+              "surface": "#f5f6f8",
+              "primary-container": "#b28cff",
+              "on-secondary-fixed": "#3c1989",
+              "outline-variant": "#abadaf",
+              "secondary-fixed": "#d8caff",
+              "on-secondary": "#f7f0ff",
+              "on-secondary-container": "#4f329d",
+              "on-secondary-fixed-variant": "#593ca6",
+              "on-primary-fixed": "#000000",
+              "background": "#f5f6f8",
+              "surface-container-highest": "#dadde0",
+              "surface-bright": "#f5f6f8",
+              "tertiary-fixed-dim": "#f77c9e",
+              "surface-dim": "#d1d5d8",
+              "inverse-surface": "#0c0f10",
+              "surface-tint": "#702ae1",
+              "secondary": "#6448b2",
+              "on-primary": "#f8f0ff",
+              "inverse-primary": "#a476ff",
+              "on-error-container": "#510017",
+              "on-primary-fixed-variant": "#390083",
+              "secondary-dim": "#583ba5",
+              "surface-container-high": "#e0e3e5",
+              "primary-dim": "#6411d5",
+              "on-tertiary-fixed": "#380016",
+              "outline": "#757779",
+              "error": "#b41340"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f6f8;
+      }
+      .font-headline {
+        font-family: 'Manrope', sans-serif;
+      }
+      /* Custom scrollbar for side nav */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="bg-[#eff1f3] dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 overflow-y-auto flex flex-col gap-2 p-6 z-50">
+<div class="mb-8">
+<h1 class="text-2xl font-black text-[#7C3AED] tracking-tighter font-headline">LangPortal</h1>
+<p class="text-xs font-semibold text-on-surface-variant tracking-tight uppercase opacity-60">Punjabi Learning</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#595c5e] dark:text-slate-400 hover:bg-white/50 transition-all duration-200 font-['Manrope'] font-semibold text-sm tracking-tight rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#595c5e] dark:text-slate-400 hover:bg-white/50 transition-all duration-200 font-['Manrope'] font-semibold text-sm tracking-tight rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+                Study Activities
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#595c5e] dark:text-slate-400 hover:bg-white/50 transition-all duration-200 font-['Manrope'] font-semibold text-sm tracking-tight rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="translate">translate</span>
+                Words
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#595c5e] dark:text-slate-400 hover:bg-white/50 transition-all duration-200 font-['Manrope'] font-semibold text-sm tracking-tight rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+                Word Groups
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#595c5e] dark:text-slate-400 hover:bg-white/50 transition-all duration-200 font-['Manrope'] font-semibold text-sm tracking-tight rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+                Sessions
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-white/10 text-[#7C3AED] dark:text-white rounded-[3rem] shadow-sm font-['Manrope'] font-semibold text-sm tracking-tight" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="mt-auto pt-6">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold py-4 rounded-xl shadow-lg hover:scale-[1.02] active:scale-95 transition-all">
+                Start Studying
+            </button>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-[#f5f6f8]/70 dark:bg-slate-950/70 backdrop-blur-xl flex justify-between items-center px-8">
+<div class="flex items-center gap-4">
+<h2 class="font-headline font-extrabold text-xl text-on-surface">Settings</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-surface"></span>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/20">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="account_circle">account_circle</span>
+<div class="flex flex-col">
+<span class="text-sm font-bold leading-tight">Arjun Singh</span>
+<span class="text-[10px] text-on-surface-variant font-medium">Scholar Tier</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-12 pb-12 min-h-screen">
+<div class="max-w-4xl mx-auto space-y-12">
+<!-- Section Header -->
+<section>
+<h3 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-2">Preferences</h3>
+<p class="text-on-surface-variant body-md max-w-lg">Customize your learning environment and manage your personal study data.</p>
+</section>
+<!-- Settings Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Appearance Card -->
+<div class="md:col-span-2 bg-surface-container-lowest p-10 rounded-xl shadow-[0_4px_20px_-2px_rgba(112,42,225,0.04)] hover:scale-[1.01] transition-transform duration-300 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-3 mb-6">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="palette">palette</span>
+</div>
+<h4 class="font-headline text-xl font-bold">Theme Mode</h4>
+</div>
+<p class="text-on-surface-variant text-sm mb-8">Choose between a light focused interface or a dark ambient mode to reduce eye strain during late-night Punjabi sessions.</p>
+</div>
+<div class="flex p-1.5 bg-surface-container-low rounded-full w-fit">
+<button class="flex items-center gap-2 px-6 py-2.5 bg-white shadow-sm rounded-full text-sm font-bold text-primary transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="light_mode">light_mode</span>
+                            Light
+                        </button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-on-surface-variant hover:text-on-surface transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="dark_mode">dark_mode</span>
+                            Dark
+                        </button>
+</div>
+</div>
+<!-- Profile Card -->
+<div class="bg-surface-container-low p-8 rounded-xl flex flex-col items-center text-center justify-center">
+<div class="relative mb-4">
+<div class="w-24 h-24 rounded-full bg-primary-container p-1 shadow-lg">
+<img alt="User profile" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a smiling young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm9cBdUmeiVb2STthabiSIyFeirysqVwh6E9-7Tj2sLTGyQuot9gq3sXw0-BU3K6YXeW0gSjz6HCbO0Mwm2j4lD8AYR3mzqg4NDnhHWG9RG59DTHn7bQS7n9MNa6r3CZNeC8gqX6L-JhbYFwwcG6S0fQY6s4GISAt6GD5CB6IuyFz4yKw9BbopzvY-wxUXruUCJMc1eh1YUXPRlkTmxAxx1QG2Vsqa9x4C4EFSxS4hOaFv2g7VVFbuKwh_Yy2TH2w1pYVAqxlFzezS"/>
+</div>
+<button class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full border-4 border-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+<h5 class="font-headline font-bold">Arjun Singh</h5>
+<p class="text-xs text-on-surface-variant mb-4">arjun.s@language.edu</p>
+<button class="text-xs font-bold text-primary px-4 py-2 hover:bg-white/50 rounded-lg transition-colors">Manage Account</button>
+</div>
+<!-- Notifications Card -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-[0_4px_20px_-2px_rgba(112,42,225,0.04)]">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary" data-icon="notifications_active">notifications_active</span>
+<div class="w-12 h-6 bg-primary rounded-full relative">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-md"></div>
+</div>
+</div>
+<h4 class="font-headline text-lg font-bold mb-2">Study Reminders</h4>
+<p class="text-sm text-on-surface-variant">Daily nudges to keep your Punjabi streak alive.</p>
+</div>
+<!-- Privacy & Data -->
+<div class="md:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-[0_4px_20px_-2px_rgba(112,42,225,0.04)] flex flex-col md:flex-row items-center gap-8 border border-outline-variant/5">
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-error-container/10 flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="dangerous">dangerous</span>
+</div>
+<h4 class="font-headline text-xl font-bold">Data Management</h4>
+</div>
+<p class="text-sm text-on-surface-variant">Resetting your history will permanently delete all study progress, word masteries, and session logs. This action cannot be undone.</p>
+</div>
+<button class="w-full md:w-auto px-8 py-4 bg-error text-on-error font-headline font-bold rounded-xl shadow-lg hover:bg-error-dim transition-all active:scale-95 whitespace-nowrap">
+                        Reset History
+                    </button>
+</div>
+</div>
+<!-- Footer Meta -->
+<footer class="pt-12 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex gap-8 text-sm font-medium text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Help Center</a>
+</div>
+<p class="text-xs text-outline font-medium tracking-wider">VERSION 2.4.0-LUMINOUS</p>
+</footer>
+</div>
+</main>
+<!-- Visual Polish: Ambient Glows -->
+<div class="fixed top-[-10%] right-[-10%] w-[50%] h-[50%] bg-primary/5 blur-[120px] rounded-full -z-10"></div>
+<div class="fixed bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-secondary/5 blur-[120px] rounded-full -z-10"></div>
+</body></html>

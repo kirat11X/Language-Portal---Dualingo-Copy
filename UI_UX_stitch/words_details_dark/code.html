@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Words - LangPortal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#b28cff",
+              "on-primary": "#000000",
+              "primary-container": "#4f329d",
+              "surface": "#0f172a",
+              "on-surface": "#f8fafc",
+              "surface-container": "#1e293b",
+              "surface-container-low": "#1e293b",
+              "surface-container-lowest": "#0f172a",
+              "surface-container-high": "#334155",
+              "surface-container-highest": "#475569",
+              "on-surface-variant": "#94a3b8",
+              "outline-variant": "#334155",
+              "background": "#0f172a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Sidebar Navigation -->
+<nav class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#1e293b]/50 backdrop-blur-md flex flex-col gap-2 p-6 z-50 border-r border-slate-800">
+<div class="mb-8 px-2">
+<h1 class="text-2xl font-black text-[#b28cff] tracking-tighter">LangPortal</h1>
+<p class="text-xs font-['Manrope'] font-semibold text-on-surface-variant uppercase tracking-widest mt-1">Punjabi Learning</p>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 p-3 text-on-surface-variant font-['Manrope'] font-semibold text-sm tracking-tight hover:bg-white/5 transition-all duration-200 rounded-[3rem] group" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant font-['Manrope'] font-semibold text-sm tracking-tight hover:bg-white/5 transition-all duration-200 rounded-[3rem] group" href="#">
+<span class="material-symbols-outlined text-lg">school</span>
+<span>Study Activities</span>
+</a>
+<!-- Active Tab: Words -->
+<a class="flex items-center gap-3 p-3 bg-white/10 text-[#b28cff] font-['Manrope'] font-semibold text-sm tracking-tight rounded-[3rem] shadow-sm" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">translate</span>
+<span>Words</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant font-['Manrope'] font-semibold text-sm tracking-tight hover:bg-white/5 transition-all duration-200 rounded-[3rem] group" href="#">
+<span class="material-symbols-outlined text-lg">folder_shared</span>
+<span>Word Groups</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant font-['Manrope'] font-semibold text-sm tracking-tight hover:bg-white/5 transition-all duration-200 rounded-[3rem] group" href="#">
+<span class="material-symbols-outlined text-lg">history</span>
+<span>Sessions</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-on-surface-variant font-['Manrope'] font-semibold text-sm tracking-tight hover:bg-white/5 transition-all duration-200 rounded-[3rem] group" href="#">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="mt-auto pt-6">
+<button class="w-full py-4 px-6 bg-[#b28cff] text-slate-950 rounded-xl font-headline font-bold text-sm shadow-lg shadow-primary/20 scale-100 active:scale-95 transition-transform">
+                Start Studying
+            </button>
+</div>
+</nav>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-[#0f172a]/70 backdrop-blur-xl flex justify-between items-center px-8 border-b border-slate-800">
+<div class="flex items-center gap-4">
+<h2 class="font-headline font-bold text-lg text-on-surface">Words</h2>
+<div class="h-4 w-[1px] bg-slate-700"></div>
+<p class="text-sm text-on-surface-variant">Vocabulary Database</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+<input class="pl-10 pr-4 py-2 bg-slate-800 border-none rounded-full text-sm w-64 focus:ring-2 focus:ring-primary/40 transition-all text-on-surface placeholder-slate-500" placeholder="Search words..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<div class="max-w-7xl mx-auto space-y-12">
+<!-- Table View Section -->
+<section class="space-y-6">
+<div class="flex justify-between items-end">
+<div>
+<h3 class="text-3xl font-headline font-extrabold tracking-tight text-on-surface">Vocabulary</h3>
+<p class="text-on-surface-variant mt-1">Review and manage your Punjabi word bank.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-slate-800 text-on-surface font-semibold text-sm rounded-full hover:bg-slate-700 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                            Filter
+                        </button>
+<button class="px-4 py-2 bg-primary text-slate-950 font-semibold text-sm rounded-full hover:shadow-lg hover:shadow-primary/40 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span>
+                            New Word
+                        </button>
+</div>
+</div>
+<!-- Modern Data Table -->
+<div class="overflow-hidden rounded-xl bg-slate-900 border border-slate-800">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-900/50 border-b border-slate-800">
+<th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">
+<button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        Punjabi
+                                        <span class="material-symbols-outlined text-xs">arrow_drop_down</span>
+</button>
+</th>
+<th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">Romanized</th>
+<th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">English</th>
+<th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant">
+<button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        Correct
+                                        <span class="material-symbols-outlined text-xs text-on-surface-variant/40">swap_vert</span>
+</button>
+</th>
+<th class="px-6 py-5 font-headline font-bold text-xs uppercase tracking-widest text-on-surface-variant text-right">Wrong</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-800">
+<!-- Row 1 -->
+<tr class="bg-slate-900/40 hover:bg-primary/5 transition-colors cursor-pointer group">
+<td class="px-6 py-5">
+<span class="text-2xl font-bold text-on-surface leading-tight">ਪਿਆਰ</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface-variant">Pyaar</td>
+<td class="px-6 py-5 text-on-surface">Love</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-bold">42</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-sm font-bold">3</span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="bg-slate-900/20 hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-5">
+<span class="text-2xl font-bold text-on-surface leading-tight">ਦੋਸਤ</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface-variant">Dost</td>
+<td class="px-6 py-5 text-on-surface">Friend</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-bold">28</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-sm font-bold">12</span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="bg-slate-900/40 hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-5">
+<span class="text-2xl font-bold text-on-surface leading-tight">ਪਾਣੀ</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface-variant">Paani</td>
+<td class="px-6 py-5 text-on-surface">Water</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-bold">156</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-sm font-bold">0</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="bg-slate-900/20 hover:bg-primary/5 transition-colors cursor-pointer">
+<td class="px-6 py-5">
+<span class="text-2xl font-bold text-on-surface leading-tight">ਰੋਟੀ</span>
+</td>
+<td class="px-6 py-5 font-medium text-on-surface-variant">Roti</td>
+<td class="px-6 py-5 text-on-surface">Bread / Food</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-sm font-bold">89</span>
+</td>
+<td class="px-6 py-5 text-right">
+<span class="px-3 py-1 rounded-full bg-rose-500/10 text-rose-400 text-sm font-bold">5</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- Word Detail View -->
+<section class="pt-8 border-t border-slate-800">
+<div class="flex items-center gap-4 mb-8">
+<div class="h-10 w-10 flex items-center justify-center rounded-full bg-slate-800 text-on-surface hover:bg-slate-700 cursor-pointer">
+<span class="material-symbols-outlined">arrow_back</span>
+</div>
+<h3 class="text-xl font-headline font-bold">Word Detail View</h3>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Main Detail Card -->
+<div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-xl p-12 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
+<!-- Abstract Background Decoration -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+<div class="relative">
+<h2 class="text-8xl font-black text-on-surface mb-4 tracking-tighter">ਪਿਆਰ</h2>
+<p class="text-3xl font-headline font-semibold text-primary mb-2">Pyaar</p>
+<div class="h-px w-24 bg-primary/30 mx-auto my-6"></div>
+<p class="text-xl text-on-surface-variant max-w-md italic">A strong feeling of affection and concern toward another person, as that arising from kinship or close friendship.</p>
+</div>
+<div class="mt-12 flex flex-wrap justify-center gap-3">
+<span class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">label</span>
+                                Basic Emotions
+                            </span>
+<span class="px-4 py-2 rounded-full bg-primary/20 text-primary text-sm font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">label</span>
+                                Daily Life
+                            </span>
+<span class="px-4 py-2 rounded-full bg-slate-800 text-on-surface-variant text-sm font-bold">
+                                Noun
+                            </span>
+</div>
+</div>
+<!-- Stats & Actions -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Stat Card 1 -->
+<div class="bg-slate-900 p-6 rounded-xl border border-emerald-500/20 flex items-center gap-4">
+<div class="h-14 w-14 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Correct Count</p>
+<p class="text-3xl font-headline font-black text-emerald-400">42 <span class="text-sm font-normal text-emerald-400/60 ml-1">times</span></p>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-slate-900 p-6 rounded-xl border border-rose-500/20 flex items-center gap-4">
+<div class="h-14 w-14 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-400">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">cancel</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Wrong Count</p>
+<p class="text-3xl font-headline font-black text-rose-400">3 <span class="text-sm font-normal text-rose-400/60 ml-1">times</span></p>
+</div>
+</div>
+<!-- Mastery Bar -->
+<div class="bg-slate-900 p-6 rounded-xl border border-slate-800 space-y-4">
+<div class="flex justify-between items-end">
+<p class="text-sm font-bold text-on-surface">Overall Mastery</p>
+<p class="text-sm font-black text-primary">93%</p>
+</div>
+<div class="h-3 w-full bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 93%;"></div>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">You are doing great! This word is almost fully memorized. Keep up the review sessions.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center gap-2 p-4 bg-slate-800 rounded-xl text-on-surface hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">volume_up</span>
+<span class="text-xs font-bold">Pronounce</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-2 p-4 bg-slate-800 rounded-xl text-on-surface hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined">edit</span>
+<span class="text-xs font-bold">Edit Word</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
